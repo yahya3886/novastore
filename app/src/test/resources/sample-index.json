@@ -1,0 +1,111 @@
+{
+  "repo": {
+    "timestamp": 1794610109042,
+    "version": 30000,
+    "maxage": 168,
+    "name": "NovaStore Test Deposu",
+    "address": "https://repo.ornek.com/repo",
+    "description": "Birim testleri için gerçekçi bir örnek indeks (f-droid.org şemasından türetilmiştir)."
+  },
+  "requests": { "install": [], "uninstall": [] },
+  "apps": [
+    {
+      "packageName": "com.ornek.hello",
+      "name": "Merhaba Dünya",
+      "summary": "Kısa özet listede görünür",
+      "description": "<p>NovaStore için yazılmış örnek uygulama.</p><p><b>HTML</b> desteklenir.</p>",
+      "categories": ["Tools", "Demo"],
+      "license": "GPL-3.0-or-later",
+      "sourceCode": "https://github.com/ornek/hello",
+      "webSite": "https://ornek.com",
+      "authorName": "Örnek Geliştirici",
+      "issueTracker": "https://github.com/ornek/hello/issues",
+      "icon": "com.ornek.hello.3.png",
+      "added": 1788427366142,
+      "lastUpdated": 1794610109042,
+      "suggestedVersionCode": "3",
+      "suggestedVersionName": "1.2.0",
+      "localized": {
+        "tr-TR": {
+          "name": "Merhaba Dünya",
+          "summary": "Türkçe özet",
+          "description": "<p>Türkçe açıklama metni.</p>",
+          "phoneScreenshots": ["1.png", "2.png"]
+        },
+        "en-US": {
+          "name": "Hello World",
+          "summary": "English summary",
+          "description": "<p>English description.</p>",
+          "phoneScreenshots": ["1.png", "2.png"]
+        }
+      }
+    },
+    {
+      "packageName": "com.ornek.notlar",
+      "name": "Hızlı Notlar",
+      "summary": "Çevrimdışı çalışan not uygulaması",
+      "description": "<p>Reklam yok, izleyici yok.</p>",
+      "categories": ["Note"],
+      "license": "MIT",
+      "icon": "icons/com.ornek.notlar.png",
+      "added": 1776272300820,
+      "lastUpdated": 1776272300820,
+      "suggestedVersionCode": "1130103",
+      "suggestedVersionName": "1.13.1"
+    }
+  ],
+  "packages": {
+    "com.ornek.hello": [
+      {
+        "packageName": "com.ornek.hello",
+        "apkName": "com.ornek.hello_3.apk",
+        "versionCode": 3,
+        "versionName": "1.2.0",
+        "size": 20992426,
+        "hash": "2aed5f480e481a6416d87673d19a55fcd2549affba47021d9152122bab4d719a",
+        "hashType": "sha256",
+        "added": 1794610109042,
+        "minSdkVersion": 26,
+        "targetSdkVersion": 36,
+        "features": ["android.hardware.touchscreen"],
+        "nativecode": ["arm64-v8a"],
+        "uses-permission": [
+          ["android.permission.INTERNET", null],
+          ["android.permission.POST_NOTIFICATIONS", null]
+        ],
+        "releaseNotes": "Hata düzeltmeleri ve performans iyileştirmeleri."
+      },
+      {
+        "packageName": "com.ornek.hello",
+        "apkName": "com.ornek.hello_2.apk",
+        "versionCode": 2,
+        "versionName": "1.1.0",
+        "size": 19500000,
+        "hash": "dd584d831bd641753b8a5e35a24a6f008111f2f3298dc127a24b505a8bfeefd9db43",
+        "hashType": "sha256",
+        "added": 1788427366142,
+        "minSdkVersion": 26,
+        "targetSdkVersion": 35,
+        "uses-permission": [["android.permission.INTERNET", null]]
+      }
+    ],
+    "com.ornek.notlar": [
+      {
+        "packageName": "com.ornek.notlar",
+        "apkName": "com.ornek.notlar_1130103.apk",
+        "versionCode": 1130103,
+        "versionName": "1.13.1",
+        "size": 1124774,
+        "hash": "2aed5f480e481a6416d87673d19a55fcd2549affba47021d9152122bab4d719a",
+        "hashType": "sha256",
+        "added": 1776272300820,
+        "minSdkVersion": 24,
+        "targetSdkVersion": 29,
+        "uses-permission": [
+          ["android.permission.FOREGROUND_SERVICE", null],
+          ["android.permission.RECEIVE_BOOT_COMPLETED", null]
+        ]
+      }
+    ]
+  }
+}

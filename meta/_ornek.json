@@ -1,0 +1,27 @@
+{
+  "_ornek_kunye": "Bu dosyanın adı <paket>.json olmalıdır (örn. com.ornek.hello.json) ve meta/ dizininde durmalıdır. tools/mkindex.py bu dosyaları okur.",
+
+  "name": "Merhaba Dünya",
+  "summary": "NovaStore için yazılmış örnek uygulama",
+  "description": "<p>Uzun açıklama HTML destekler. Paragraflar, listeler ve <b>kalın</b> metin kullanabilirsin.</p><p>NovaStore bu metni uygulama detay ekranında gösterir.</p>",
+  "categories": ["Tools", "Demo"],
+  "license": "GPL-3.0-or-later",
+  "authorName": "Adın Soyadın",
+  "webSite": "https://ornek.com",
+  "sourceCode": "https://github.com/kullanici/proje",
+  "issueTracker": "https://github.com/kullanici/proje/issues",
+  "releaseNotes": "İlk sürüm: temel özellikler eklendi.",
+
+  "localized": {
+    "tr-TR": {
+      "name": "Merhaba Dünya",
+      "summary": "Örnek uygulama",
+      "description": "<p>Türkçe açıklama…</p>"
+    },
+    "en-US": {
+      "name": "Hello World",
+      "summary": "Sample application",
+      "description": "<p>English description…</p>"
+    }
+  }
+}

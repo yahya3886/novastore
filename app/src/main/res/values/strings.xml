@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NovaStore</string>
+    <string name="tagline">Açık kaynak mobil mağaza</string>
+
+    <!-- Gezinme -->
+    <string name="nav_store">Mağaza</string>
+    <string name="nav_updates">Güncellemeler</string>
+    <string name="nav_settings">Ayarlar</string>
+
+    <!-- Mağaza -->
+    <string name="search_hint">Uygulama ara</string>
+    <string name="search_clear">Aramayı temizle</string>
+    <string name="category_all">Tümü</string>
+    <string name="refresh">Yenile</string>
+    <string name="loading">Depo yükleniyor…</string>
+    <string name="error_title">Depo yüklenemedi</string>
+    <string name="error_generic">Bir şeyler ters gitti</string>
+    <string name="retry">Tekrar dene</string>
+    <string name="empty_title">Sonuç yok</string>
+    <string name="empty_body">Farklı bir arama terimi ya da kategori dene.</string>
+    <string name="catalog_empty_title">Henüz uygulama yok</string>
+    <string name="catalog_empty_body">Ayarlar bölümünden bir depo ekleyerek başla.</string>
+
+    <!-- Kurulum -->
+    <string name="install">Yükle</string>
+    <string name="install_update">Güncelle</string>
+    <string name="install_open">Aç</string>
+    <string name="install_remove">Kaldır</string>
+    <string name="install_downloading">İndiriliyor…</string>
+    <string name="install_verifying">SHA-256 doğrulanıyor…</string>
+    <string name="install_launching">Kurulum ekranı açılıyor…</string>
+    <string name="install_permission">Kurulum izni ver</string>
+    <string name="install_permission_body">APK kurabilmek için bu uygulamanın bilinmeyen kaynaklardan kurulum yapmasına izin vermelisin.</string>
+    <string name="install_failed">Kurulum başarısız: %1$s</string>
+    <string name="install_hash_mismatch">İndirilen dosyanın özeti depo bilgisiyle uyuşmuyor.</string>
+    <string name="installed">Kurulu</string>
+    <string name="update_available">Güncelleme var</string>
+    <string name="version_downgrade_note">Depodaki en yeni sürüm cihazkinden eski görünüyor.</string>
+
+    <!-- Uygulama detayı -->
+    <string name="versions_title">Sürüm geçmişi</string>
+    <string name="versions_empty">Bu depoda kayıtlı sürüm bulunmuyor.</string>
+    <string name="label_version">Sürüm</string>
+    <string name="label_version_code">Sürüm kodu</string>
+    <string name="label_size">Boyut</string>
+    <string name="label_min_sdk">En az Android</string>
+    <string name="label_target_sdk">Hedef Android</string>
+    <string name="label_license">Lisans</string>
+    <string name="label_package">Paket adı</string>
+    <string name="label_author">Geliştirici</string>
+    <string name="label_source">Kaynak kod</string>
+    <string name="label_website">Web sitesi</string>
+    <string name="label_permissions">İzinler</string>
+    <string name="permissions_none">Depoda izin listesi yok</string>
+    <string name="label_screenshots">Ekran görüntüleri</string>
+    <string name="label_description">Açıklama</string>
+    <string name="whats_new">Sürüm notları</string>
+    <string name="no_description">Bu uygulama için açıklama eklenmemiş.</string>
+    <string name="updated_at">Güncellenme: %1$s</string>
+    <string name="added_at">Eklenme: %1$s</string>
+    <string name="label_added">Eklenme</string>
+    <string name="label_updated">Güncellenme</string>
+    <string name="label_issues">Hata bildir</string>
+    <string name="not_installed_label">Kurulu değil</string>
+    <string name="label_categories">Kategoriler</string>
+    <string name="screenshot_desc">%1$s ekran görüntüsü</string>
+    <string name="no_repo_name">Adsız depo</string>
+
+    <!-- Güncellemeler -->
+    <string name="updates_title">Güncellemeler</string>
+    <string name="updates_none">Tüm uygulamalar güncel.</string>
+    <string name="updates_none_body">Depoda yeni bir sürüm çıktığında burada listelenir.</string>
+    <string name="installed_title">Kurulu uygulamalar</string>
+    <string name="installed_none">Depodan henüz uygulama kurmadın.</string>
+    <string name="update_count">%1$s güncelleme</string>
+    <string name="installed_count">%1$s kurulu</string>
+    <string name="section_count_fmt">%1$s · %2$s</string>
+
+    <!-- Ayarlar -->
+    <string name="settings_repos">Depolar</string>
+    <string name="settings_repos_hint">Kendi uygulamalarının olacağı, F-Droid uyumlu depo adresi ekle. Statik bir sunucuda index-v1.json ve APK dosyaları yeterlidir.</string>
+    <string name="settings_add_repo">Depo ekle</string>
+    <string name="settings_repo_name">Depo adı (örn. Benim Depom)</string>
+    <string name="settings_repo_address">Depo adresi (örn. https://repo.ornek.com/repo)</string>
+    <string name="settings_repo_invalid">Geçerli bir http(s) adresi gir</string>
+    <string name="settings_repo_added">Depo eklendi</string>
+    <string name="settings_repo_exists">Bu depo zaten eklenmiş olabilir</string>
+    <string name="settings_repo_removed">Depo kaldırıldı</string>
+    <string name="settings_remove_repo">Depoyu kaldır</string>
+    <string name="settings_remove_repo_title">Depoyu kaldır</string>
+    <string name="settings_remove_repo_message">%1$s deposu listeden kaldırılsın mı? Kurulu uygulamalar silinmez.</string>
+    <string name="settings_cache">Önbellek</string>
+    <string name="settings_clear_cache">İndeks ve APK önbelleğini temizle</string>
+    <string name="settings_clear_cache_done">Önbellek temizlendi</string>
+    <string name="settings_about">Hakkında</string>
+    <string name="settings_about_body">NovaStore, F-Droid depo formatını (index-v1.json) kullanan açık kaynak bir mağazadır. Kendi uygulamalarını tools/mkindex.py ile indeksleyip herhangi bir statik dosya sunucusunda yayınlayabilirsin.</string>
+    <string name="version_fmt">Sürüm %1$s</string>
+    <string name="source_repo_url">https://github.com/yahya3886/novastore</string>
+    <string name="license_notice">GPL-3.0 lisansıyla dağıtılır.</string>
+    <string name="open_source_code">Kaynak kodu görüntüle</string>
+    <string name="repo_error_fmt">%1$s deposu yüklenemedi: %2$s</string>
+    <string name="repo_ok_fmt">%1$s deposu: %2$s uygulama</string>
+
+    <!-- Ortak -->
+    <string name="cancel">Vazgeç</string>
+    <string name="close">Kapat</string>
+    <string name="confirm">Onayla</string>
+    <string name="copy">Kopyala</string>
+    <string name="copied">Kopyalandı</string>
+    <string name="more">Daha fazla</string>
+    <string name="less">Daha az</string>
+</resources>

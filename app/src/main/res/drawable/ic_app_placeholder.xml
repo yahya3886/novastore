@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Depo ikonu olmadığında gösterilen yer tutucu -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#E8EAF6"
+        android:pathData="M8,12 A4,4 0 0 1 12,8 H36 A4,4 0 0 1 40,12 V36 A4,4 0 0 1 36,40 H12 A4,4 0 0 1 8,36 Z" />
+    <path
+        android:fillColor="#7986CB"
+        android:pathData="M17,17 h6 v6 h-6 z M25,17 h6 v6 h-6 z M17,25 h6 v6 h-6 z M25,25 h6 v6 h-6 z" />
+</vector>

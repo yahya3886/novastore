@@ -1,0 +1,50 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JDK kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Gradle önbelleği
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Birim testleri
+        run: ./gradlew --no-daemon :app:testDebugUnitTest
+
+      - name: Debug APK üret
+        run: ./gradlew --no-daemon :app:assembleDebug
+
+      - name: APK'yı yayınla
+        uses: actions/upload-artifact@v4
+        with:
+          name: novastore-debug
+          path: app/build/outputs/apk/debug/*.apk
+
+  mkindex-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Android build-tools kur (aapt2)
+        uses: android-actions/setup-android@v3
+        with:
+          packages: build-tools;36.0.0
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: mkindex.py --help
+        run: python3 tools/mkindex.py --help
