@@ -1,0 +1,17 @@
+{
+  "name": "Kapsül",
+  "summary": "Geleceğe mühürlü notlar yazan, çevrimdışı çalışan zaman kapsülü uygulaması",
+  "description": "<p>Bir kapsül yazarsın — mektup, hedef, kendine hatırlatma — ve vaktini seçersin. Mühür o ana kadar açılmaz. Zamanı gelince mührü kırarsın ve notunu okursun.</p><p><b>Özellikler</b></p><ul><li>Mühürlü kapsüller ve canlı geri sayım</li><li>Mühür kırma animasyonu ve kutlama</li><li>Hazır/özel süre ve takvimden tarih seçimi</li><li>Sembol ve renk seçimi, filtreler, istatistik rozetleri</li><li>%100 çevrimdışı, hesap ve reklam yok</li></ul>",
+  "categories": ["Time", "Writing"],
+  "license": "MIT",
+  "authorName": "yahya3886",
+  "sourceCode": "https://github.com/yahya3886/kapsul",
+  "webSite": "https://github.com/yahya3886/kapsul",
+  "localized": {
+    "tr-TR": {
+      "name": "Kapsül",
+      "summary": "Geleceğe mühürlü notlar yazan zaman kapsülü",
+      "description": "<p>Bir kapsül yaz, mühürle ve zamanı gelince aç. %100 çevrimdışı, hesap ve reklam yok.</p>"
+    }
+  }
+}

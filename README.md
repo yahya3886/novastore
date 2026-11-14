@@ -25,8 +25,8 @@ hesap sistemi gerekmez.
   (bilinmeyen kaynak izni tek seferlik istenir)
 - **Güncellemeler**: cihazda kurulu sürüm ile depodaki en yeni sürüm karşılaştırılır;
   "Güncelle / Aç / Kaldır"
-- **Çoklu depo**: Ayarlar'dan birden fazla depo ekleyip kaldırabilirsin; F-Droid'in resmi
-  deposu varsayılan olarak gelir (hemen denemek için)
+- **Çoklu depo**: Ayarlar'dan birden fazla depo ekleyip kaldırabilirsin; varsayılan olarak
+  bu projenin GitHub Pages deposu (`https://yahya3886.github.io/novastore/repo`) gelir
 - **Önbellek**: indeks çevrimdışı kullanılabilir; `maxage` süresi dolunca otomatik yenilenir
 - Material 3 (dinamik renkler), karanlık tema, Türkçe arayüz
 
@@ -46,7 +46,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Kendi deponu oluşturma (adım adım)
 
-### 1. Dizin yapısı
+> **Sunucun yok mu?** Bu repo hazır: `apks/` içine APK ekle, `meta/<paket>.json` künye yaz,
+> push'la — GitHub Actions indeksi üretip **GitHub Pages**'e yayınlar:
+> `https://<kullanıcı>.github.io/<repo>/repo`. NovaStore bu adresi varsayılan depo olarak kullanır.
+
+### 1. Dizin yapısı (kendi sunucunda barındıracaksan)
 
 ```
 projen/

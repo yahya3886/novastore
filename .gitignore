@@ -12,5 +12,8 @@ captures/
 *.ap_
 *.hprof
 
+# Kaynak APK'lar (depo indeksi için commit edilir)
+!apks/*.apk
+
 # Üretilen yerel depo (tools/mkindex.py ile oluşturulur)
 repo/

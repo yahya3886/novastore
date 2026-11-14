@@ -12,14 +12,15 @@ data class RepoConfig(
     val address: String,
 ) {
     companion object {
-        const val DEFAULT_FDROID_ADDRESS = "https://f-droid.org/repo"
+        const val DEFAULT_REPO_ADDRESS = "https://yahya3886.github.io/novastore/repo"
+        const val DEFAULT_REPO_NAME = "NovaStore Deposu"
 
         fun idFor(address: String): String = Integer.toHexString(address.trim().hashCode())
 
         fun default(): RepoConfig = RepoConfig(
-            id = idFor(DEFAULT_FDROID_ADDRESS),
-            name = "F-Droid",
-            address = DEFAULT_FDROID_ADDRESS,
+            id = idFor(DEFAULT_REPO_ADDRESS),
+            name = DEFAULT_REPO_NAME,
+            address = DEFAULT_REPO_ADDRESS,
         )
     }
 }

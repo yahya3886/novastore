@@ -1,0 +1,17 @@
+{
+  "name": "Depreme Hazır",
+  "summary": "Deprem öncesi/anı/sonrası için hazırlık rehberi, kontrol listesi ve acil numaralar",
+  "description": "<p>Türkiye'deki deprem gerçeği için hazırlanmış, tamamen çevrimdışı çalışan hazırlık uygulaması.</p><p><b>İçerik</b></p><ul><li>Hazırlık seviyesi göstergesi ve <i>Çök – Kapan – Tutun</i> adımları</li><li>31 maddelik kontrol listesi (acil durum çantası, ev güvenliği, aile planı)</li><li>Deprem öncesi/anı/sonrası ve enkaz altında rehberi</li><li>Acil numaralar: 112, AFAD 122, itfaiye, polis, Kızılay vb. (tek dokunuşla arama)</li><li>6 soruluk bilgi testi</li></ul><p>İnternet izni istemez; veriler cihazda kalır.</p>",
+  "categories": ["Sports & Health", "Science & Education"],
+  "license": "MIT",
+  "authorName": "yahya3886",
+  "sourceCode": "https://github.com/yahya3886/depreme-hazir",
+  "webSite": "https://github.com/yahya3886/depreme-hazir",
+  "localized": {
+    "tr-TR": {
+      "name": "Depreme Hazır",
+      "summary": "Deprem hazırlık rehberi, kontrol listesi ve acil numaralar",
+      "description": "<p>Çök-Kapan-Tutun, 31 maddelik kontrol listesi, rehberler, acil numaralar ve bilgi testi. Tamamen çevrimdışı.</p>"
+    }
+  }
+}
