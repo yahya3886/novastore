@@ -217,9 +217,7 @@ fun AppDetailScreen(
             }
 
             item(key = "screenshots") {
-                val screenshots = remember(entry.packageName, entry.lastUpdated) {
-                    dev.novastore.app.util.collectScreenshots(entry.repo, entry.app)
-                }
+                val screenshots = entry.screenshots
                 if (screenshots.isNotEmpty()) {
                     Column {
                         SectionTitle(stringResource(R.string.label_screenshots))

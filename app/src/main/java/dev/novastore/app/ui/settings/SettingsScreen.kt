@@ -68,6 +68,7 @@ fun SettingsScreen(
     val repoRemovedLabel = stringResource(R.string.settings_repo_removed)
     val repoAddedLabel = stringResource(R.string.settings_repo_added)
     val cacheClearedLabel = stringResource(R.string.settings_clear_cache_done)
+    val sourceRepoUrl = stringResource(R.string.source_repo_url)
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_settings)) }) },
@@ -202,9 +203,8 @@ fun SettingsScreen(
                     )
                     Spacer(Modifier.height(8.dp))
                     OutlinedButton(onClick = {
-                        val url = context.getString(R.string.source_repo_url)
                         runCatching {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceRepoUrl)))
                         }
                     }) {
                         Icon(

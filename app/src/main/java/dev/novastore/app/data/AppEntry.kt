@@ -7,8 +7,10 @@ import dev.novastore.app.util.apkUrl
 import dev.novastore.app.util.appDescription
 import dev.novastore.app.util.appSummary
 import dev.novastore.app.util.appTitle
+import dev.novastore.app.util.collectScreenshots
 import dev.novastore.app.util.iconUrl
 import dev.novastore.app.util.pickLocalized
+import dev.novastore.app.util.Screenshot
 import java.util.Locale
 
 /**
@@ -19,7 +21,6 @@ import java.util.Locale
  */
 data class AppEntry(
     val repo: RepoConfig,
-    val app: IndexApp,
     val packageName: String,
     val title: String,
     val summary: String,
@@ -36,6 +37,9 @@ data class AppEntry(
     /** Sürüm kodu azalan sırada: en yenisi başta. */
     val versions: List<IndexPackage>,
     val whatsNew: String?,
+    /** Ekran görüntüleri (tam URL'ler) — indeks ayrıştırıldıktan sonra üretilir ki
+     *  tüm dillerin metinleri bellekte tutulmasın. */
+    val screenshots: List<Screenshot> = emptyList(),
     /** Cihazda kurulu sürüm kodu; kurulu değilse null. */
     val installedVersion: Long? = null,
 ) {
@@ -70,7 +74,6 @@ fun buildEntries(
         val localized = pickLocalized(app, locale)
         AppEntry(
             repo = repo,
-            app = app,
             packageName = packageName,
             title = appTitle(app, locale),
             summary = appSummary(app, locale),
@@ -88,6 +91,7 @@ fun buildEntries(
             whatsNew = localized?.whatsNew
                 ?: versions.firstOrNull()?.releaseNotes
                 ?: versions.firstOrNull()?.whatsNew,
+            screenshots = collectScreenshots(repo, app, locale),
         )
     }.sortedBy { it.title.lowercase(locale) }
 }
