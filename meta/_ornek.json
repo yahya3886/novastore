@@ -5,7 +5,7 @@
   "summary": "NovaStore için yazılmış örnek uygulama",
   "description": "<p>Uzun açıklama HTML destekler. Paragraflar, listeler ve <b>kalın</b> metin kullanabilirsin.</p><p>NovaStore bu metni uygulama detay ekranında gösterir.</p>",
   "categories": ["Tools", "Demo"],
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "authorName": "Adın Soyadın",
   "webSite": "https://ornek.com",
   "sourceCode": "https://github.com/kullanici/proje",

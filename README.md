@@ -14,7 +14,7 @@ hesap sistemi gerekmez.
 | Paket adı | `dev.novastore.app` |
 | Depo formatı | F-Droid `index-v1.json` (v30000) |
 | Min / Hedef SDK | 26 (Android 8.0) / 37 |
-| Lisans | GPL-3.0 (`LICENSE`) |
+| Lisans | MIT (`LICENSE`) |
 
 ## Özellikler
 
@@ -71,7 +71,7 @@ projen/
   "summary": "Kısa özet (listede görünür)",
   "description": "<p>HTML açıklaması…</p>",
   "categories": ["Tools"],
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "authorName": "Adın Soyadın",
   "sourceCode": "https://github.com/kullanici/proje",
   "webSite": "https://ornek.com",
@@ -170,5 +170,5 @@ arama/kategori filtresi testleri var:
 
 ## Lisans
 
-GPL-3.0 — bkz. [`LICENSE`](LICENSE). F-Droid projesiyle aynı depo formatını kullanır;
+MIT — bkz. [`LICENSE`](LICENSE). F-Droid projesiyle aynı depo formatını kullanır;
 NovaStore, F-Droid'in resmi uygulamasının çatalı değildir, bağımsız bir istemcidir.

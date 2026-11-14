@@ -97,7 +97,7 @@
     <string name="settings_about_body">NovaStore, F-Droid depo formatını (index-v1.json) kullanan açık kaynak bir mağazadır. Kendi uygulamalarını tools/mkindex.py ile indeksleyip herhangi bir statik dosya sunucusunda yayınlayabilirsin.</string>
     <string name="version_fmt">Sürüm %1$s</string>
     <string name="source_repo_url">https://github.com/yahya3886/novastore</string>
-    <string name="license_notice">GPL-3.0 lisansıyla dağıtılır.</string>
+    <string name="license_notice">MIT lisansıyla dağıtılır.</string>
     <string name="open_source_code">Kaynak kodu görüntüle</string>
     <string name="repo_error_fmt">%1$s deposu yüklenemedi: %2$s</string>
     <string name="repo_ok_fmt">%1$s deposu: %2$s uygulama</string>

@@ -3,7 +3,7 @@
   "summary": "F-Droid formatında, kendi uygulamalarınızı barındıran açık kaynak Android mağazası",
   "description": "<p>NovaStore, <code>index-v1.json</code> tabanlı F-Droid uyumlu depoları okuyan hafif bir mağaza istemcisidir. Kendi uygulamalarınızı statik bir depoda yayınlayabilir, katalogda listeleyebilir ve SHA-256 doğrulamasıyla kurabilirsiniz.</p><p><b>Özellikler</b></p><ul><li>Kategori ızgarası, arama, uygulama detayı ve sürüm geçmişi</li><li>APK indirme, SHA-256 doğrulama ve sistem kurulum akışı</li><li>Kurulu uygulamalar ve güncelleme takibi</li><li>Çoklu depo desteği, önbellek, Material 3 arayüz</li></ul>",
   "categories": ["System"],
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "authorName": "yahya3886",
   "sourceCode": "https://github.com/yahya3886/novastore",
   "webSite": "https://github.com/yahya3886/novastore",
