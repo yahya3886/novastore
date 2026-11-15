@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- APK kurabilmek için "bilinmeyen uygulamalar" erişimi -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Kaldırma ekranını açabilmek için. Android 9+ (API 28) hedefleyen
+         uygulamalar ACTION_UNINSTALL_PACKAGE ve PackageInstaller.uninstall
+         kullanmak için bu izni zorunlu tutar (koruma seviyesi: normal —
+         kurulumda otomatik verilir). -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <!-- Android 11+ (API 30) paket görünürlüğü: cihazda kurulu sürümleri
          (Güncellemeler/Kurulu ekranı) okumak için diğer paketlere erişim. -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />

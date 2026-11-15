@@ -58,9 +58,14 @@ private data class Destination(val route: String, val labelRes: Int, val icon: I
  */
 private const val SYSTEM_SCREEN_TIMEOUT_MS = 1_500L
 
-/** Bu cihazda sistem kaldırma ekranının açılıp açılmadığının hatırlanması. */
+/**
+ * Bu cihazda sistem kaldırma ekranının açılıp açılmadığının hatırlanması.
+ *
+ * Anahtar, izin/niyet düzeltmelerinde "r2" gibi bir sürüm eklenerek
+ * güncellenir; böylece eski "açılamıyor" kaydı yeni denemeyi engellemez.
+ */
 private const val UNINSTALL_PREFS = "novastore_uninstall"
-private const val KEY_SYSTEM_UNINSTALL = "system_uninstall"
+private const val KEY_SYSTEM_UNINSTALL = "system_uninstall_r2"
 private const val STATE_WORKS = "works"
 private const val STATE_BROKEN = "broken"
 
