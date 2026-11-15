@@ -9,10 +9,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,6 +34,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import android.widget.Toast
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import dev.novastore.app.R
 import dev.novastore.app.data.AppEntry
@@ -48,6 +48,14 @@ import dev.novastore.app.viewmodel.CatalogViewModel
 import dev.novastore.app.viewmodel.InstallEvent
 
 private data class Destination(val route: String, val labelRes: Int, val icon: ImageVector)
+
+/**
+ * Sistem kaldırma ekranının açılması için beklenecek süre.
+ *
+ * Bu süre sonunda NovaStore hâlâ önündeyse niyetin açılmadığı (ya da anında
+ * kapandığı) kabul edilir ve uygulama bilgi sayfasına düşülür.
+ */
+private const val SYSTEM_SCREEN_TIMEOUT_MS = 1_500L
 
 private val destinations = listOf(
     Destination("home", R.string.nav_store, Icons.Outlined.Storefront),
@@ -65,31 +73,44 @@ fun NovaStoreRoot(
     val snackbarHostState = remember { SnackbarHostState() }
     // Configuration değişikliklerine duyarlı (lint: LocalContextGetResourceValueCall)
     val uninstallFailedMessage = stringResource(R.string.uninstall_failed)
-    val uninstallOpenSettingsLabel = stringResource(R.string.uninstall_open_settings)
+    val uninstallFallbackToast = stringResource(R.string.uninstall_fallback)
 
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    /** Uygulamanın sistem bilgi sayfası: oradaki "Kaldır" her koşulda çalışır. */
+    val openAppDetails: (String) -> Unit = { pkg ->
+        Toast.makeText(context, uninstallFallbackToast, Toast.LENGTH_LONG).show()
+        val ok = runCatching { context.startActivity(Installer.appDetailsIntent(pkg)) }.isSuccess
+        if (!ok) {
+            scope.launch { snackbarHostState.showSnackbar(uninstallFailedMessage) }
+        }
+    }
 
     /**
-     * Sistem kaldırma ekranını doğrudan açar — ViewModel/olay kanalına
-     * uğramaz, böylece düğmeye basıldığı anda çalışır.
+     * Kaldırma akışı — ViewModel/olay kanalına uğramaz, düğmeye basıldığı
+     * anda çalışır.
      *
-     * Önce `ACTION_DELETE`, olmazsa `ACTION_UNINSTALL_PACKAGE` denenir. İkisi
-     * de açılmazsa uyarı gösterilir; kullanıcı isterse uygulamanın sistem bilgi
-     * sayfası açılır (oradaki "Kaldır" her koşulda çalışır).
+     * 1. `ACTION_DELETE`, olmazsa `ACTION_UNINSTALL_PACKAGE` denenir.
+     * 2. Niyet hiç açılamazsa (istisna) doğrudan uygulamanın sistem bilgi
+     *    sayfası açılır.
+     * 3. Niyet "açılıyor" görünüp sistem ekranı hiç gelmezse (bazı ROM'larda
+     *    paket kurulumucusu paketi bulamayıp kendini kapatır) uygulama kısa bir
+     *    süre sonra hâlâ önündeyse yine bilgi sayfasına düşülür.
      */
     val openUninstaller: (AppEntry) -> Unit = { entry ->
         val packageName = entry.packageName
         val opened = runCatching { context.startActivity(Installer.uninstallIntent(packageName)) }.isSuccess ||
             runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
+
         if (!opened) {
+            openAppDetails(packageName)
+        } else {
             scope.launch {
-                val action = snackbarHostState.showSnackbar(
-                    message = uninstallFailedMessage,
-                    actionLabel = uninstallOpenSettingsLabel,
-                    duration = SnackbarDuration.Long,
-                )
-                if (action == SnackbarResult.ActionPerformed) {
-                    runCatching { context.startActivity(Installer.appDetailsIntent(packageName)) }
+                delay(SYSTEM_SCREEN_TIMEOUT_MS)
+                // Hâlâ önündeysek sistem kaldırma ekranı açılmamış demektir.
+                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    openAppDetails(packageName)
                 }
             }
         }
@@ -114,7 +135,6 @@ fun NovaStoreRoot(
     }
 
     // Uygulama öne geldiğinde kurulu sürümleri tazele
-    val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) viewModel.onAppResumed()

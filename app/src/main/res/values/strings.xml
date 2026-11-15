@@ -28,7 +28,7 @@
     <string name="install_open">Aç</string>
     <string name="install_remove">Kaldır</string>
     <string name="uninstall_failed">Kaldırma ekranı açılamadı</string>
-    <string name="uninstall_open_settings">Uygulama bilgisi</string>
+    <string name="uninstall_fallback">Kaldırma ekranı açılamadı; uygulama bilgisi sayfası açıldı</string>
     <string name="uninstall_confirm_title">Uygulamayı kaldır</string>
     <string name="uninstall_confirm_body">«%1$s» cihazdan kaldırılsın mı?</string>
     <string name="install_downloading">İndiriliyor…</string>
