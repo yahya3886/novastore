@@ -46,18 +46,29 @@ object Installer {
     /**
      * Paketi kaldırmak için sistem niyeti.
      *
-     * Önce `ACTION_UNINSTALL_PACKAGE` denenir; bazı cihaz/ROM'larda yalnızca
-     * bu action ele alınır. `ActivityNotFoundException` durumunda `ACTION_DELETE`
-     * ile yeniden denenir (bkz. [NovaStoreRoot]).
+     * `ACTION_DELETE` tüm Android sürümlerinde paket kurulumucusu tarafından
+     * ele alınır. Bazı ROM'larda yalnızca `ACTION_UNINSTALL_PACKAGE` çalıştığı
+     * için [uninstallIntentAlt] ile yedeklenir (bkz. [NovaStoreRoot]).
      */
     fun uninstallIntent(packageName: String): Intent =
+        Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName")).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+    /** Bazı cihazlarda gereken yedek kaldırma niyeti. */
+    fun uninstallIntentAlt(packageName: String): Intent =
         Intent(Intent.ACTION_UNINSTALL_PACKAGE, Uri.parse("package:$packageName")).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
-    /** Yedek kaldırma niyeti (`ACTION_DELETE`). */
-    fun uninstallIntentLegacy(packageName: String): Intent =
-        Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName")).apply {
+    /**
+     * Son çare: uygulamanın sistem bilgi sayfası.
+     *
+     * Kaldırma ekranı hiç açılmıyorsa NovaStore burayı açar; sayfadaki
+     * "Kaldır" düğmesi her koşulda çalışır.
+     */
+    fun appDetailsIntent(packageName: String): Intent =
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 

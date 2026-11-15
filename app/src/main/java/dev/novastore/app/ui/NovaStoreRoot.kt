@@ -9,8 +9,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -33,6 +35,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import kotlinx.coroutines.launch
 import dev.novastore.app.R
 import dev.novastore.app.data.AppEntry
 import dev.novastore.app.install.Installer
@@ -61,6 +64,7 @@ fun NovaStoreRoot(
     val snackbarHostState = remember { SnackbarHostState() }
     // Configuration değişikliklerine duyarlı (lint: LocalContextGetResourceValueCall)
     val uninstallFailedMessage = stringResource(R.string.uninstall_failed)
+    val uninstallOpenSettingsLabel = stringResource(R.string.uninstall_open_settings)
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val visible by viewModel.visible.collectAsStateWithLifecycle()
@@ -75,13 +79,25 @@ fun NovaStoreRoot(
                 is InstallEvent.OpenApp ->
                     runCatching { context.startActivity(event.intent) }
                 is InstallEvent.OpenUninstaller -> {
-                    // Bazı cihazlarda ACTION_UNINSTALL_PACKAGE, bazılarında ACTION_DELETE
-                    // ele alınır; ikisini de dene, ikisi de olmazsa kullanıcıya bildir.
-                    val legacy = Installer.uninstallIntentLegacy(event.intent.data?.schemeSpecificPart.orEmpty())
+                    // Önce standart kaldırma ekranı, olmazsa ACTION_UNINSTALL_PACKAGE.
+                    val packageName = event.intent.data?.schemeSpecificPart.orEmpty()
                     val opened = runCatching { context.startActivity(event.intent) }.isSuccess ||
-                        runCatching { context.startActivity(legacy) }.isSuccess
+                        runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
                     if (!opened) {
-                        snackbarHostState.showSnackbar(uninstallFailedMessage)
+                        // Kaldırma ekranı hiç açılmıyorsa kullanıcıya uygulamanın
+                        // sistem bilgi sayfasını açma seçeneği sun (oradan manuel
+                        // kaldırma her zaman çalışır). Ayrı coroutine'de gösterilir
+                        // ki diğer niyetler beklemesin.
+                        launch {
+                            val action = snackbarHostState.showSnackbar(
+                                message = uninstallFailedMessage,
+                                actionLabel = uninstallOpenSettingsLabel,
+                                duration = SnackbarDuration.Long,
+                            )
+                            if (action == SnackbarResult.ActionPerformed) {
+                                runCatching { context.startActivity(Installer.appDetailsIntent(packageName)) }
+                            }
+                        }
                     }
                 }
                 InstallEvent.RequestInstallPermission ->

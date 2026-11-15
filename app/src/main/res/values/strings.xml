@@ -28,6 +28,7 @@
     <string name="install_open">Aç</string>
     <string name="install_remove">Kaldır</string>
     <string name="uninstall_failed">Kaldırma ekranı açılamadı</string>
+    <string name="uninstall_open_settings">Uygulama bilgisi</string>
     <string name="install_downloading">İndiriliyor…</string>
     <string name="install_verifying">SHA-256 doğrulanıyor…</string>
     <string name="install_launching">Kurulum ekranı açılıyor…</string>
