@@ -219,7 +219,12 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     fun onAppResumed() {
         _installStates.update { map ->
             map.filterValues {
-                it.phase != InstallPhase.DONE && it.phase != InstallPhase.PERMISSION_NEEDED
+                it.phase != InstallPhase.DONE &&
+                    it.phase != InstallPhase.PERMISSION_NEEDED &&
+                    // Başarısız bir kurulum, kullanıcı uygulamayı açıp geri
+                    // dönünce ekranda kalmasın (aksi halde Yükle/Kaldır alanı
+                    // yerine "Kurulum başarısız" mesajı görünmeye devam eder).
+                    it.phase != InstallPhase.FAILED
             }
         }
         viewModelScope.launch(Dispatchers.Default) {

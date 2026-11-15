@@ -304,8 +304,13 @@ fun InstallActions(
             InstallPhase.DOWNLOADING -> DownloadProgressRow(state, modifier)
             InstallPhase.VERIFYING -> WorkingRow(stringResource(R.string.install_verifying), modifier)
             InstallPhase.INSTALLING -> WorkingRow(stringResource(R.string.install_launching), modifier)
-            InstallPhase.PERMISSION_NEEDED -> Button(onClick = onInstall, modifier = modifier) {
-                Text(stringResource(R.string.install_permission))
+            InstallPhase.PERMISSION_NEEDED -> Column(modifier = modifier.fillMaxWidth()) {
+                Text(
+                    text = stringResource(R.string.install_permission_body),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                TextButton(onClick = onInstall) { Text(stringResource(R.string.install_permission)) }
             }
             InstallPhase.FAILED -> Column(modifier = modifier.fillMaxWidth()) {
                 Text(
@@ -316,7 +321,14 @@ fun InstallActions(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
                 )
-                TextButton(onClick = onInstall) { Text(stringResource(R.string.retry)) }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = onInstall) { Text(stringResource(R.string.retry)) }
+                    // Kurulum başarısız olsa bile kullanıcı uygulamayı
+                    // kaldırmak isteyebilir; butonu geri getir.
+                    if (entry.isInstalled && onUninstall != null) {
+                        TextButton(onClick = onUninstall) { Text(stringResource(R.string.install_remove)) }
+                    }
+                }
             }
             InstallPhase.DONE -> IdleActions(entry, onInstall, onLaunch, onUninstall, modifier, expanded)
         }
@@ -338,6 +350,10 @@ private fun IdleActions(
             Button(onClick = onInstall) { Text(stringResource(R.string.install_update)) }
             if (expanded) {
                 OutlinedButton(onClick = onLaunch) { Text(stringResource(R.string.install_open)) }
+            }
+            // Güncelleme varken de kaldırmak mümkün olmalı.
+            if (expanded && onUninstall != null) {
+                OutlinedButton(onClick = onUninstall) { Text(stringResource(R.string.install_remove)) }
             }
         }
         entry.isInstalled -> Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {

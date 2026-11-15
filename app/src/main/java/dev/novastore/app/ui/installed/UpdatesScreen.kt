@@ -214,7 +214,7 @@ private fun InstalledRow(
                     onInstall = onInstall,
                     onLaunch = onLaunch,
                     onUninstall = onUninstall,
-                    expanded = false,
+                    expanded = true,
                 )
             }
         }

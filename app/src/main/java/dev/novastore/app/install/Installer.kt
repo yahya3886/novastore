@@ -43,7 +43,20 @@ object Installer {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
+    /**
+     * Paketi kaldırmak için sistem niyeti.
+     *
+     * Önce `ACTION_UNINSTALL_PACKAGE` denenir; bazı cihaz/ROM'larda yalnızca
+     * bu action ele alınır. `ActivityNotFoundException` durumunda `ACTION_DELETE`
+     * ile yeniden denenir (bkz. [NovaStoreRoot]).
+     */
     fun uninstallIntent(packageName: String): Intent =
+        Intent(Intent.ACTION_UNINSTALL_PACKAGE, Uri.parse("package:$packageName")).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+    /** Yedek kaldırma niyeti (`ACTION_DELETE`). */
+    fun uninstallIntentLegacy(packageName: String): Intent =
         Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName")).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }

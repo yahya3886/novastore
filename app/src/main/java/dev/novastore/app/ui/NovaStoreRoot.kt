@@ -9,11 +9,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -55,6 +58,9 @@ fun NovaStoreRoot(
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
+    val snackbarHostState = remember { SnackbarHostState() }
+    // Configuration değişikliklerine duyarlı (lint: LocalContextGetResourceValueCall)
+    val uninstallFailedMessage = stringResource(R.string.uninstall_failed)
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val visible by viewModel.visible.collectAsStateWithLifecycle()
@@ -68,8 +74,16 @@ fun NovaStoreRoot(
                     runCatching { context.startActivity(Installer.installIntent(context, event.file)) }
                 is InstallEvent.OpenApp ->
                     runCatching { context.startActivity(event.intent) }
-                is InstallEvent.OpenUninstaller ->
-                    runCatching { context.startActivity(event.intent) }
+                is InstallEvent.OpenUninstaller -> {
+                    // Bazı cihazlarda ACTION_UNINSTALL_PACKAGE, bazılarında ACTION_DELETE
+                    // ele alınır; ikisini de dene, ikisi de olmazsa kullanıcıya bildir.
+                    val legacy = Installer.uninstallIntentLegacy(event.intent.data?.schemeSpecificPart.orEmpty())
+                    val opened = runCatching { context.startActivity(event.intent) }.isSuccess ||
+                        runCatching { context.startActivity(legacy) }.isSuccess
+                    if (!opened) {
+                        snackbarHostState.showSnackbar(uninstallFailedMessage)
+                    }
+                }
                 InstallEvent.RequestInstallPermission ->
                     runCatching { context.startActivity(Installer.requestInstallPermissionIntent(context)) }
             }
@@ -91,6 +105,7 @@ fun NovaStoreRoot(
     val showBottomBar = currentRoute == null || !currentRoute.startsWith("app/")
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
