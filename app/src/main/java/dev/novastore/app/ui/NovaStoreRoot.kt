@@ -1,5 +1,6 @@
 package dev.novastore.app.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.List
@@ -57,6 +58,12 @@ private data class Destination(val route: String, val labelRes: Int, val icon: I
  */
 private const val SYSTEM_SCREEN_TIMEOUT_MS = 1_500L
 
+/** Bu cihazda sistem kaldırma ekranının açılıp açılmadığının hatırlanması. */
+private const val UNINSTALL_PREFS = "novastore_uninstall"
+private const val KEY_SYSTEM_UNINSTALL = "system_uninstall"
+private const val STATE_WORKS = "works"
+private const val STATE_BROKEN = "broken"
+
 private val destinations = listOf(
     Destination("home", R.string.nav_store, Icons.Outlined.Storefront),
     Destination("updates", R.string.nav_updates, Icons.AutoMirrored.Outlined.List),
@@ -77,6 +84,7 @@ fun NovaStoreRoot(
 
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val prefs = remember { context.getSharedPreferences(UNINSTALL_PREFS, Context.MODE_PRIVATE) }
 
     /** Uygulamanın sistem bilgi sayfası: oradaki "Kaldır" her koşulda çalışır. */
     val openAppDetails: (String) -> Unit = { pkg ->
@@ -91,26 +99,44 @@ fun NovaStoreRoot(
      * Kaldırma akışı — ViewModel/olay kanalına uğramaz, düğmeye basıldığı
      * anda çalışır.
      *
-     * 1. `ACTION_DELETE`, olmazsa `ACTION_UNINSTALL_PACKAGE` denenir.
-     * 2. Niyet hiç açılamazsa (istisna) doğrudan uygulamanın sistem bilgi
-     *    sayfası açılır.
-     * 3. Niyet "açılıyor" görünüp sistem ekranı hiç gelmezse (bazı ROM'larda
-     *    paket kurulumucusu paketi bulamayıp kendini kapatır) uygulama kısa bir
-     *    süre sonra hâlâ önündeyse yine bilgi sayfasına düşülür.
+     * 1. Sistem kaldırma ekranı denenir (`ACTION_DELETE`, olmazsa
+     *    `ACTION_UNINSTALL_PACKAGE`).
+     * 2. Niyet hiç açılamazsa ya da açılır gibi olup ekran gelmezse
+     *    (bazı ROM/AOSP yapılarında paket kurulumucusu niyeti alıp kendini
+     *    kapatır) NovaStore bunu cihazda hatırlar ve sonraki işlemlerde
+     *    doğrudan uygulama bilgi sayfasını açar — oradaki "Kaldır" her koşulda
+     *    çalışır.
      */
     val openUninstaller: (AppEntry) -> Unit = { entry ->
         val packageName = entry.packageName
-        val opened = runCatching { context.startActivity(Installer.uninstallIntent(packageName)) }.isSuccess ||
-            runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
+        val systemState = prefs.getString(KEY_SYSTEM_UNINSTALL, null)
 
-        if (!opened) {
+        if (systemState == STATE_BROKEN) {
+            // Bu cihazda sistem ekranı biliniyor ki açılmıyor: bekleme.
             openAppDetails(packageName)
+        } else if (systemState == STATE_WORKS) {
+            val ok = runCatching { context.startActivity(Installer.uninstallIntent(packageName)) }.isSuccess
+            if (!ok) {
+                prefs.edit().putString(KEY_SYSTEM_UNINSTALL, STATE_BROKEN).apply()
+                openAppDetails(packageName)
+            }
         } else {
-            scope.launch {
-                delay(SYSTEM_SCREEN_TIMEOUT_MS)
-                // Hâlâ önündeysek sistem kaldırma ekranı açılmamış demektir.
-                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                    openAppDetails(packageName)
+            val opened = runCatching { context.startActivity(Installer.uninstallIntent(packageName)) }.isSuccess ||
+                runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
+
+            if (!opened) {
+                prefs.edit().putString(KEY_SYSTEM_UNINSTALL, STATE_BROKEN).apply()
+                openAppDetails(packageName)
+            } else {
+                scope.launch {
+                    delay(SYSTEM_SCREEN_TIMEOUT_MS)
+                    // Hâlâ önündeysek sistem kaldırma ekranı açılmamış demektir.
+                    if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                        prefs.edit().putString(KEY_SYSTEM_UNINSTALL, STATE_BROKEN).apply()
+                        openAppDetails(packageName)
+                    } else {
+                        prefs.edit().putString(KEY_SYSTEM_UNINSTALL, STATE_WORKS).apply()
+                    }
                 }
             }
         }
