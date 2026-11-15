@@ -12,8 +12,15 @@ captures/
 *.ap_
 *.hprof
 
-# Kaynak APK'lar (depo indeksi için commit edilir)
-!apks/*.apk
+# Python
+__pycache__/
+*.pyc
+
+# Kaynak APK'lar (yalnızca bu repoya ait uygulamalar commit edilir;
+# upstream uygulamalar deploy sırasında tools/sync-upstream.py ile indirilir)
+!apks/novastore.apk
+!apks/kapsul.apk
+!apks/deprem-hazirlik.apk
 
 # Üretilen yerel depo (tools/mkindex.py ile oluşturulur)
 repo/

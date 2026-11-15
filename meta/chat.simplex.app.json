@@ -1,0 +1,23 @@
+{
+  "name": "SimpleX Chat",
+  "summary": "Kullanıcı kimliği olmayan, uçtan uca şifreli gizlilik odaklı mesajlaşma",
+  "description": "<p>SimpleX Chat, kullanıcı tanımlayıcısı (ID) gerektirmeyen, gizlilik odaklı ilk mesajlaşma platformudur. Profiliniz, kişileriniz ve meta verileriniz sunucularda tutulmaz; iletişim uçtan uca şifrelenir.</p><p><b>Özellikler</b></p><ul><li>Kullanıcı adı/numara/ID olmadan sohbet</li><li>Uçtan uca şifreli mesaj, dosya, sesli ve görüntülü arama</li><li>Gruplar, geçici mesajlar ve gizli profiller</li></ul>",
+  "categories": ["Connectivity", "Messaging", "Phone & SMS", "Voice & Video Chat"],
+  "license": "AGPL-3.0-or-later",
+  "authorName": "SimpleX Chat",
+  "webSite": "https://simplex.chat/",
+  "sourceCode": "https://github.com/simplex-chat/simplex-chat",
+  "issueTracker": "https://github.com/simplex-chat/simplex-chat/issues",
+  "localized": {
+    "tr-TR": {
+      "name": "SimpleX Chat",
+      "summary": "Kimliksiz, uçtan uca şifreli özel mesajlaşma",
+      "description": "<p>SimpleX, kullanıcı kimliği olmadan uçtan uca şifreli mesajlaşma, arama ve dosya paylaşımı sunar.</p>"
+    },
+    "en-US": {
+      "name": "SimpleX Chat",
+      "summary": "e2e encrypted messenger without any user IDs - private by design!",
+      "description": "<p>SimpleX - the first messaging platform that has no user identifiers of any kind - 100% private by design.</p>"
+    }
+  }
+}

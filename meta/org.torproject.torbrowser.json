@@ -1,0 +1,23 @@
+{
+  "name": "Tor Browser",
+  "summary": "Gizlilik ve sansürsüzlük için Tor destekli web tarayıcısı",
+  "description": "<p>Tor Browser, çevrimiçi gizliliği ve özgürlüğü korumak için Tor ağı üzerinde çalışan tek resmi mobil tarayıcıdır. İzlemeyi, parmak izini ve sansürü engellemeye yardımcı olur; her oturum izole edilebilir.</p><p><b>Özellikler</b></p><ul><li>Tor ağı ile anonim gezinti ve izleme koruması</li><li>Parmak izi (fingerprinting) savunmaları</li><li>Çok katmanlı şifreleme ve devre yenileme</li></ul><p><i>Not:</i> Bu depoda arm64-v8a (aarch64) APK sunulur.</p>",
+  "categories": ["Internet", "Security"],
+  "license": "MPL-2.0",
+  "authorName": "The Tor Project",
+  "webSite": "https://www.torproject.org/",
+  "sourceCode": "https://gitlab.torproject.org/tpo/applications/tor-browser",
+  "issueTracker": "https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues",
+  "localized": {
+    "tr-TR": {
+      "name": "Tor Browser",
+      "summary": "Tor ile gizli ve sansürsüz web tarayıcısı",
+      "description": "<p>Tor Browser, Tor ağı üzerinden gizliliğinizi koruyarak internette gezinmenizi sağlar ve izlemeyi zorlaştırır. (arm64-v8a)</p>"
+    },
+    "en-US": {
+      "name": "Tor Browser",
+      "summary": "Browse Privately. Explore Freely.",
+      "description": "<p>Tor Browser is the only official mobile browser supported by the Tor Project, designed to protect your privacy and freedom online. (arm64-v8a)</p>"
+    }
+  }
+}

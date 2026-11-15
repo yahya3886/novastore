@@ -1,0 +1,23 @@
+{
+  "name": "Orbot",
+  "summary": "Tor ile güvenli internet: trafik yönlendirme ve gizlilik",
+  "description": "<p>Orbot, diğer uygulamaların interneti daha güvenli kullanmasını sağlayan ücretsiz bir vekil (proxy) uygulamasıdır. Tor ağını kullanarak internet trafiğini şifreler ve dünya üzerindeki bilgisayarlardan geçirerek gizler.</p><p><b>Özellikler</b></p><ul><li>Uygulama bazında VPN/tor yönlendirme</li><li>Köprüler ve sansür aşma seçenekleri</li><li>Arka planda çalışma ve hızlı aç/kapat</li></ul>",
+  "categories": ["Internet", "Security"],
+  "license": "BSD-3-Clause",
+  "authorName": "Guardian Project / Tor Project",
+  "webSite": "https://orbot.app/",
+  "sourceCode": "https://github.com/guardianproject/orbot-android",
+  "issueTracker": "https://github.com/guardianproject/orbot-android/issues",
+  "localized": {
+    "tr-TR": {
+      "name": "Orbot",
+      "summary": "Tor ile güvenli ve gizli internet erişimi",
+      "description": "<p>Orbot, Tor ağı üzerinden trafiği şifreleyip yönlendirerek gizliliğinizi artırır ve sansürü aşmanıza yardımcı olur.</p>"
+    },
+    "en-US": {
+      "name": "Orbot",
+      "summary": "Tor-powered VPN for privacy and security",
+      "description": "<p>Orbot uses Tor to encrypt your Internet traffic and then hides it by bouncing through a series of computers around the world.</p>"
+    }
+  }
+}
