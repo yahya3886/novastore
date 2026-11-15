@@ -46,6 +46,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    lint {
+        // QUERY_ALL_PACKAGES bilinçli kullanılıyor: mağaza, depodaki rastgele
+        // paketlerin kurulu sürümünü (Güncellemeler/Kurulu ekranı) okumak zorunda.
+        // Paket adları çalışma zamanında depodan geldiği için statik <queries>
+        // listesi mümkün değil (F-Droid istemcisi de aynı izni kullanır).
+        disable += "QueryAllPackagesPermission"
+    }
 }
 
 dependencies {
