@@ -59,7 +59,6 @@ data class InstallState(
 sealed interface InstallEvent {
     data class OpenInstaller(val file: File) : InstallEvent
     data class OpenApp(val intent: Intent) : InstallEvent
-    data class OpenUninstaller(val intent: Intent) : InstallEvent
     data object RequestInstallPermission : InstallEvent
 }
 
@@ -203,12 +202,6 @@ class CatalogViewModel(app: Application) : AndroidViewModel(app) {
     fun launch(packageName: String) {
         val intent = Installer.launchIntent(getApplication(), packageName) ?: return
         viewModelScope.launch { _events.send(InstallEvent.OpenApp(intent)) }
-    }
-
-    fun uninstall(packageName: String) {
-        viewModelScope.launch {
-            _events.send(InstallEvent.OpenUninstaller(Installer.uninstallIntent(packageName)))
-        }
     }
 
     fun requestInstallPermission() {

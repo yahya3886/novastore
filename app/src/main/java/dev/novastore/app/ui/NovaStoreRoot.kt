@@ -19,6 +19,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -66,6 +67,34 @@ fun NovaStoreRoot(
     val uninstallFailedMessage = stringResource(R.string.uninstall_failed)
     val uninstallOpenSettingsLabel = stringResource(R.string.uninstall_open_settings)
 
+    val scope = rememberCoroutineScope()
+
+    /**
+     * Sistem kaldırma ekranını doğrudan açar — ViewModel/olay kanalına
+     * uğramaz, böylece düğmeye basıldığı anda çalışır.
+     *
+     * Önce `ACTION_DELETE`, olmazsa `ACTION_UNINSTALL_PACKAGE` denenir. İkisi
+     * de açılmazsa uyarı gösterilir; kullanıcı isterse uygulamanın sistem bilgi
+     * sayfası açılır (oradaki "Kaldır" her koşulda çalışır).
+     */
+    val openUninstaller: (AppEntry) -> Unit = { entry ->
+        val packageName = entry.packageName
+        val opened = runCatching { context.startActivity(Installer.uninstallIntent(packageName)) }.isSuccess ||
+            runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
+        if (!opened) {
+            scope.launch {
+                val action = snackbarHostState.showSnackbar(
+                    message = uninstallFailedMessage,
+                    actionLabel = uninstallOpenSettingsLabel,
+                    duration = SnackbarDuration.Long,
+                )
+                if (action == SnackbarResult.ActionPerformed) {
+                    runCatching { context.startActivity(Installer.appDetailsIntent(packageName)) }
+                }
+            }
+        }
+    }
+
     val state by viewModel.state.collectAsStateWithLifecycle()
     val visible by viewModel.visible.collectAsStateWithLifecycle()
     val installStates by viewModel.installStates.collectAsStateWithLifecycle()
@@ -78,28 +107,6 @@ fun NovaStoreRoot(
                     runCatching { context.startActivity(Installer.installIntent(context, event.file)) }
                 is InstallEvent.OpenApp ->
                     runCatching { context.startActivity(event.intent) }
-                is InstallEvent.OpenUninstaller -> {
-                    // Önce standart kaldırma ekranı, olmazsa ACTION_UNINSTALL_PACKAGE.
-                    val packageName = event.intent.data?.schemeSpecificPart.orEmpty()
-                    val opened = runCatching { context.startActivity(event.intent) }.isSuccess ||
-                        runCatching { context.startActivity(Installer.uninstallIntentAlt(packageName)) }.isSuccess
-                    if (!opened) {
-                        // Kaldırma ekranı hiç açılmıyorsa kullanıcıya uygulamanın
-                        // sistem bilgi sayfasını açma seçeneği sun (oradan manuel
-                        // kaldırma her zaman çalışır). Ayrı coroutine'de gösterilir
-                        // ki diğer niyetler beklemesin.
-                        launch {
-                            val action = snackbarHostState.showSnackbar(
-                                message = uninstallFailedMessage,
-                                actionLabel = uninstallOpenSettingsLabel,
-                                duration = SnackbarDuration.Long,
-                            )
-                            if (action == SnackbarResult.ActionPerformed) {
-                                runCatching { context.startActivity(Installer.appDetailsIntent(packageName)) }
-                            }
-                        }
-                    }
-                }
                 InstallEvent.RequestInstallPermission ->
                     runCatching { context.startActivity(Installer.requestInstallPermissionIntent(context)) }
             }
@@ -174,7 +181,7 @@ fun NovaStoreRoot(
                     onOpen = { entry -> openDetail(navController::navigate, entry) },
                     onInstall = { viewModel.install(it) },
                     onLaunch = { viewModel.launch(it.packageName) },
-                    onUninstall = { viewModel.uninstall(it.packageName) },
+                    onUninstall = openUninstaller,
                     onGoToStore = {
                         navController.navigate("home") {
                             popUpTo(navController.graph.findStartDestination().id) { saveState = true }
@@ -211,7 +218,7 @@ fun NovaStoreRoot(
                     onRefresh = { viewModel.refresh(force = true) },
                     onInstall = { app, version -> viewModel.install(app, version) },
                     onLaunch = { viewModel.launch(it.packageName) },
-                    onUninstall = { viewModel.uninstall(it.packageName) },
+                    onUninstall = openUninstaller,
                 )
             }
         }

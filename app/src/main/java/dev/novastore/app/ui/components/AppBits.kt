@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CloudOff
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -28,6 +29,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -326,7 +331,11 @@ fun InstallActions(
                     // Kurulum başarısız olsa bile kullanıcı uygulamayı
                     // kaldırmak isteyebilir; butonu geri getir.
                     if (entry.isInstalled && onUninstall != null) {
-                        TextButton(onClick = onUninstall) { Text(stringResource(R.string.install_remove)) }
+                        UninstallButton(
+                            appTitle = entry.title,
+                            onConfirm = onUninstall,
+                            outlined = false,
+                        )
                     }
                 }
             }
@@ -353,7 +362,7 @@ private fun IdleActions(
             }
             // Güncelleme varken de kaldırmak mümkün olmalı.
             if (expanded && onUninstall != null) {
-                OutlinedButton(onClick = onUninstall) { Text(stringResource(R.string.install_remove)) }
+                UninstallButton(appTitle = entry.title, onConfirm = onUninstall)
             }
         }
         entry.isInstalled -> Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -361,12 +370,54 @@ private fun IdleActions(
                 Text(stringResource(R.string.install_open))
             }
             if (expanded && onUninstall != null) {
-                OutlinedButton(onClick = onUninstall) { Text(stringResource(R.string.install_remove)) }
+                UninstallButton(appTitle = entry.title, onConfirm = onUninstall)
             }
         }
         else -> Button(onClick = onInstall, enabled = entry.latest != null, modifier = modifier) {
             Text(stringResource(R.string.install))
         }
+    }
+}
+
+/**
+ * Kaldır düğmesi + uygulama içi onay kutusu.
+ *
+ * Düğmeye basınca önce ne yapılacağı açıkça sorulur; onaydan sonra [onConfirm]
+ * çağrılır ve kök ekran sistem kaldırma niyetini doğrudan yürütür (olay
+ * kanalına uğramadan). Böylece her basışta kullanıcı mutlaka bir geri bildirim
+ * görür.
+ */
+@Composable
+fun UninstallButton(
+    appTitle: String,
+    onConfirm: () -> Unit,
+    outlined: Boolean = true,
+) {
+    var confirming by remember { mutableStateOf(false) }
+
+    if (outlined) {
+        OutlinedButton(onClick = { confirming = true }) { Text(stringResource(R.string.install_remove)) }
+    } else {
+        TextButton(onClick = { confirming = true }) { Text(stringResource(R.string.install_remove)) }
+    }
+
+    if (confirming) {
+        AlertDialog(
+            onDismissRequest = { confirming = false },
+            title = { Text(stringResource(R.string.uninstall_confirm_title)) },
+            text = { Text(stringResource(R.string.uninstall_confirm_body, appTitle)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirming = false
+                        onConfirm()
+                    },
+                ) { Text(stringResource(R.string.install_remove)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirming = false }) { Text(stringResource(R.string.cancel)) }
+            },
+        )
     }
 }
 
