@@ -9,10 +9,7 @@ on:
       - 'icons/**'
       - 'shots/**'
       - 'tools/mkindex.py'
-      - 'tools/sync-upstream.py'
       - '.github/workflows/deploy-repo.yml'
-  schedule:
-    - cron: "27 6 * * 1" # haftalık: upstream güncellemelerini al ve redeploy et
   workflow_dispatch:
 
 permissions:
@@ -39,9 +36,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Upstream uygulamaları senkronize et (Orbot, SimpleX, Tor Browser)
-        run: python3 tools/sync-upstream.py
 
       - name: Depo indeksini üret
         run: |

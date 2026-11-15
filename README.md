@@ -28,8 +28,6 @@ hesap sistemi gerekmez.
 - **Çoklu depo**: Ayarlar'dan birden fazla depo ekleyip kaldırabilirsin; varsayılan olarak
   bu projenin GitHub Pages deposu (`https://yahya3886.github.io/novastore/repo`) gelir
 - **Önbellek**: indeks çevrimdışı kullanılabilir; `maxage` süresi dolunca otomatik yenilenir
-- **Upstream uygulamalar**: depoda Orbot, SimpleX Chat ve Tor Browser (arm64-v8a) bulunur;
-  `tools/sync-upstream.py` ve haftalık deploy ile güncel sürümler otomatik alınır
 - Material 3 (dinamik renkler), karanlık tema, Türkçe arayüz
 
 ## Derleme
